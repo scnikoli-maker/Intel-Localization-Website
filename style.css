@@ -1,0 +1,295 @@
+/* ============================================================
+   Intel Timeline — centered cards, expand-on-hover, pinned bar
+   + CTA button anchored to bottom of expanded card
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+
+  /* ============================================================
+   Root variables
+   ============================================================ */
+:root {
+  --footer-h: 48px;
+  --card-w: 300px;
+  --card-h: 600px;
+  --gap: 20px;
+  --brand: #0071C5;
+  --inset: 12px;
+  --hover-cushion: 24px;
+  --btn-h: 44px;
+  --media-h: 180px;
+}
+  
+
+
+
+html, body { height: 100%; }
+
+body{
+  font-family: "Inter", "Tahoma", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  color: #222; line-height: 1.6;
+
+  /* Background (restored) */
+  background: url("img/DecadeHero.jpg") center / cover no-repeat fixed;
+
+  /* Layout: header (auto) + timeline (fills) + fixed footer overlay */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  /* Keep content clear of the fixed footer so blue bar sits above it */
+  padding-bottom: var(--footer-h);
+}
+
+/* ---------------- Header ---------------- */
+.header{
+  display: flex; align-items: center; gap: 20px;
+  padding: 20px 24px;
+  color: #fff;
+  background: linear-gradient(135deg, #0071C5, #003B70);
+  box-shadow: 0 2px 10px rgba(0,0,0,.18);
+}
+.header img{ height: 55px; }
+.header h1{ font-size: 2rem; line-height: 1.2; }
+.header p { max-width: 960px; margin-top: 6px; }
+
+
+
+/* ============================================================
+   Timeline Carousel (Bootstrap carousel cards)
+   ============================================================ */
+
+.timeline-carousel   {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+} 
+
+.timeline-carousel-card {
+  max-width: var(--card-w);          /* cap width so Bootstrap cols don’t sprawl */
+  margin: 0 auto;                    /* center card in col-12/col-md-4 */
+  height: var(--card-h);             /* uniform height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+
+  padding: var(--inset);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.timeline-carousel-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18);
+}
+
+/* ABSOLUTE LAW: image crop */
+.timeline-carousel-card .card-image {
+  display: block;
+  width: 100%;
+
+  height: var(--media-h) !important;    /* law: fixed height */
+  aspect-ratio: 4 / 3 !important;       /* law: 4:3 */
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 8px;
+}
+
+/* Content section grows/shrinks but doesn’t stretch text */
+.timeline-carousel-card .content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;    /* optional, prevents runaway text */
+}
+
+/* Footer always sits at bottom */
+.timeline-carousel-card .footer {
+  flex: 0 0 auto;
+  margin-top: auto;
+}
+/* ============================================================
+   Buttons / Links (your original styles preserved)
+   ============================================================ */
+
+.learn-more {
+  display: inline-block;
+  margin-top: auto;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.learn-more:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.timeline-carousel-card .learn-more:empty {
+  display: block;
+  visibility: hidden;   /* reserves the space */
+  height: 44px;         /* match real button height */
+}
+
+
+/* ============================================================
+   Carousel Controls & Indicators
+   ============================================================ */
+
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 5;
+}
+
+.carousel-indicators button {
+  background-color: #333;
+}
+
+.carousel-indicators .active {
+  background-color: #007bff;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 12px;
+  padding: 30px 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-number {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #00517a;   /* Intel blue */
+  margin-bottom: 0.5rem;
+}
+
+.stat-unit {
+  font-size: 1.8rem;
+  vertical-align: super;
+}
+
+.stat-label {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+}
+
+/* Footnote reference styling */
+/* Reference footnote card */
+
+section.container.my-5 {
+  margin-bottom: 0 !important; /* kill the canyon */
+}
+
+.stats-reference {
+  max-width: 400px;
+  margin: 8px auto 0;   /* centers it under the stats row */
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-size: 0.85rem;
+  color: #555;
+  text-align: center;
+}
+
+.stats-reference a {
+  color: #0d6efd; /* Bootstrap blue */
+  text-decoration: none;
+}
+
+.stats-reference a:hover {
+  text-decoration: underline;
+}
+
+
+.stats-reference a {
+  color: #0d6efd; /* bootstrap blue */
+  text-decoration: none;
+}
+
+.stats-reference a:hover {
+  text-decoration: underline;
+}
+
+/* exact 70/30 split on md+; stacks on mobile */
+.newsletter-signup .input-col  { 
+  flex: 0 0 70%; 
+  max-width: 70%; 
+}
+
+.newsletter-signup .button-col { 
+  flex: 0 0 30%; 
+  max-width: 30%; 
+}
+
+/* keep heights aligned and comfy */
+.newsletter-signup .form-control-lg,
+.newsletter-signup .btn-lg { 
+  height: 44px; 
+}
+
+/* center the whole control block and prevent it from getting absurdly wide */
+.newsletter-signup .card form { 
+  max-width: 100%; 
+  margin: 0 auto; 
+}
+
+.footer {
+  padding-top: 2rem;   /* top padding only */
+  background-color: #fff .95; /* matches Bootstrap's light bg */
+  font-size: 0.9rem;
+}
+
+
+
+/* ---------------- Mobile: stack vertically ---------------- */
+@media (max-width: 768px){
+  .timeline{
+    flex: 0 0 auto;
+    overflow-x: hidden;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding-bottom: 12px;
+  }
+  .card{
+    flex: 1 1 auto;
+    width: 92vw; max-width: 720px;
+    height: auto;
+  }
+  .timeline .card:hover{
+    height: auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,.15);
+  }
+  /* On mobile, let content flow naturally and keep CTA in flow */
+  .extra, .extra-details{
+    max-height: none; opacity: 1; overflow: visible;
+    padding-bottom: 0;
+  }
+  .learn-more, .btn{
+    position: static; min-height: unset; margin-top: 12px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .timeline .card{ transition: none; }
+  .extra, .extra-details{ transition: none; }
+}
